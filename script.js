@@ -364,6 +364,63 @@ function burstConfetti() {
   }
 }
 
+// ----- add to calendar (.ics download) -----
+function toICSDateTime(dateStr, timeStr, addHours = 0) {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  let hour = 12;
+  let min = 0;
+  if (match) {
+    hour = parseInt(match[1], 10) % 12;
+    min = parseInt(match[2], 10);
+    if (/PM/i.test(match[3])) hour += 12;
+  }
+  const dt = new Date(y, m - 1, d, hour, min);
+  dt.setHours(dt.getHours() + addHours);
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+}
+
+function escapeICS(str) {
+  return String(str)
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/\n/g, "\\n");
+}
+
+document.getElementById("btn-add-calendar").addEventListener("click", () => {
+  if (!state.date || !state.time) return;
+
+  const title = `${state.activity || "our date"} with ${CONFIG.signatureName}`;
+  const detail = detailSummary();
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//love2love//date//EN",
+    "BEGIN:VEVENT",
+    `UID:${Date.now()}@love2love`,
+    `DTSTAMP:${toICSDateTime(new Date().toISOString().slice(0, 10), "12:00 PM")}`,
+    `DTSTART:${toICSDateTime(state.date, state.time, 0)}`,
+    `DTEND:${toICSDateTime(state.date, state.time, 2)}`,
+    `SUMMARY:${escapeICS(title)}`,
+    detail ? `DESCRIPTION:${escapeICS(detail)}` : "",
+    state.location ? `LOCATION:${escapeICS(state.location)}` : "",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].filter(Boolean);
+
+  const blob = new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "our-date.ics";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+
 // ----- background music -----
 const bgAudio = document.getElementById("bg-audio");
 const btnMusic = document.getElementById("btn-music");
