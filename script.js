@@ -1,6 +1,6 @@
 // ---------- PERSONALIZE ME ----------
 const CONFIG = {
-  herName: "",                     // e.g. "Name of girl" — leave empty to skip a name
+  herName: "My Honey",                     // e.g. "Name of girl" — leave empty to skip a name
   signatureName: "Habibjon",       // shown at the bottom + used in the final message
   // Shown one at a time before the question, to build anticipation.
   // Leave the array empty ([]) to skip straight to the question.
