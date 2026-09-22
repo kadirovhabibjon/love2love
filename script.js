@@ -1,3 +1,9 @@
+// force a real network fetch when the page is restored from the mobile
+// browser's back-forward cache, so stale versions never stick around
+window.addEventListener("pageshow", (e) => {
+  if (e.persisted) location.reload();
+});
+
 // ---------- PERSONALIZE ME ----------
 const CONFIG = {
   herName: "My Honey",                     // e.g. "Name of girl" — leave empty to skip a name
