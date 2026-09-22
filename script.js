@@ -37,23 +37,36 @@ function spawnPetals() {
 
 // ----- step 1: the ask -----
 const btnNo = document.getElementById("btn-no");
-btnNo.addEventListener("pointerenter", dodge);
-btnNo.addEventListener("click", (e) => {
-  e.preventDefault();
-  dodge();
-});
-function dodge() {
+let noOrigin = null; // btn-no's natural (untransformed) position within the card
+
+function dodge(e) {
+  if (e) e.preventDefault();
   const stage = document.getElementById("step-ask");
-  const maxX = stage.clientWidth - btnNo.offsetWidth - 24;
-  const maxY = stage.clientHeight - btnNo.offsetHeight - 24;
-  const x = Math.max(16, Math.random() * maxX);
-  const y = Math.max(16, Math.random() * maxY);
-  btnNo.classList.add("dodging");
-  btnNo.style.position = "absolute";
-  btnNo.style.left = x + "px";
-  btnNo.style.top = y + "px";
-  btnNo.style.right = "auto";
+  const stageRect = stage.getBoundingClientRect();
+
+  if (!noOrigin) {
+    btnNo.style.transform = "none";
+    const rect = btnNo.getBoundingClientRect();
+    noOrigin = {
+      x: rect.left - stageRect.left,
+      y: rect.top - stageRect.top,
+      w: rect.width,
+      h: rect.height,
+    };
+  }
+
+  const maxX = stage.clientWidth - noOrigin.w - 16;
+  const maxY = stage.clientHeight - noOrigin.h - 16;
+  const targetX = 16 + Math.random() * Math.max(0, maxX - 16);
+  const targetY = 16 + Math.random() * Math.max(0, maxY - 16);
+
+  btnNo.style.transform = `translate(${targetX - noOrigin.x}px, ${targetY - noOrigin.y}px)`;
 }
+
+// dodge before a click can ever land: pointerdown fires first on both touch and mouse
+btnNo.addEventListener("pointerdown", dodge);
+btnNo.addEventListener("pointerenter", dodge); // desktop: also dodge on hover, before the press
+btnNo.addEventListener("click", dodge); // belt-and-suspenders fallback
 
 document.getElementById("btn-yes").addEventListener("click", () => {
   showStep("step-reaction");

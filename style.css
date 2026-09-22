@@ -147,12 +147,8 @@ h1 {
   padding: 12px 20px;
   border-radius: 999px;
   white-space: nowrap;
-  transition: transform 0.18s ease;
-}
-
-.btn-no.dodging {
-  position: absolute;
-  flex: none;
+  transition: transform 0.15s ease;
+  touch-action: none;
 }
 
 .field {
