@@ -245,6 +245,17 @@ h1 {
   opacity: 1;
 }
 
+.tap-hint {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+  animation: tap-bounce 1.4s ease-in-out infinite;
+}
+
+@keyframes tap-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+}
+
 .field {
   display: block;
   text-align: left;
