@@ -334,31 +334,6 @@ h1 {
   text-decoration: none;
 }
 
-.music-toggle {
-  position: fixed;
-  right: 18px;
-  bottom: max(18px, env(safe-area-inset-bottom));
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--pink-btn-light), var(--pink-btn));
-  color: #fff;
-  font-size: 1.15rem;
-  cursor: pointer;
-  box-shadow: 0 10px 20px -6px rgba(194, 51, 122, 0.5);
-  z-index: 10;
-  transition: transform 0.15s ease;
-}
-
-.music-toggle:hover {
-  transform: translateY(-2px) scale(1.05);
-}
-
-.music-toggle:active {
-  transform: translateY(0) scale(0.97);
-}
-
 /* floating petals background */
 .petals {
   position: fixed;

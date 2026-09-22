@@ -401,7 +401,6 @@ document.getElementById("btn-add-calendar").addEventListener("click", () => {
 
 // ----- background music -----
 const bgAudio = document.getElementById("bg-audio");
-const btnMusic = document.getElementById("btn-music");
 let musicPlaying = false;
 
 function startMusic() {
@@ -409,7 +408,6 @@ function startMusic() {
   bgAudio
     .play()
     .then(() => {
-      btnMusic.textContent = "🔊";
       musicPlaying = true;
     })
     .catch(() => {
@@ -417,18 +415,8 @@ function startMusic() {
     });
 }
 
-btnMusic.addEventListener("click", () => {
-  if (musicPlaying) {
-    bgAudio.pause();
-    btnMusic.textContent = "🔈";
-    musicPlaying = false;
-    return;
-  }
-  startMusic();
-});
-
 // browsers block audio-with-sound autoplay on page load, so start it on
-// her very first tap/click anywhere — no need to find and press the music button
+// her very first tap/click anywhere on the page
 document.addEventListener("pointerdown", startMusic, { once: true, capture: true });
 
 // ----- init -----
