@@ -230,13 +230,29 @@ btnDateNext.addEventListener("click", () => {
 });
 
 const foodGrid = document.getElementById("food-grid");
+const inputFoodCustom = document.getElementById("input-food-custom");
+
 foodGrid.addEventListener("click", (e) => {
   const opt = e.target.closest(".food-opt");
   if (!opt) return;
   foodGrid.querySelectorAll(".food-opt").forEach((b) => b.classList.remove("selected"));
   opt.classList.add("selected");
+  inputFoodCustom.value = "";
   state.food = opt.dataset.food;
   btnDetailNext.disabled = false;
+});
+
+inputFoodCustom.addEventListener("input", () => {
+  const custom = inputFoodCustom.value.trim();
+  if (custom) {
+    foodGrid.querySelectorAll(".food-opt").forEach((b) => b.classList.remove("selected"));
+    state.food = custom;
+    btnDetailNext.disabled = false;
+  } else {
+    const selected = foodGrid.querySelector(".food-opt.selected");
+    state.food = selected ? selected.dataset.food : "";
+    btnDetailNext.disabled = !state.food;
+  }
 });
 
 // ----- step 6: accept -----
