@@ -2,7 +2,6 @@
 const CONFIG = {
   herName: "",                     // e.g. "Name of girl" — leave empty to skip a name
   signatureName: "Habibjon",       // shown at the bottom + used in the final message
-  pickupHint: "I'm coming to get you 🚗",
   // Where her answer gets emailed to you.
   // 1) go to https://web3forms.com, enter your email, get a free "Access Key" (no password, 1 min).
   // 2) paste that key below.
@@ -133,7 +132,7 @@ btnFoodNext.addEventListener("click", () => {
       })
     : "";
   document.getElementById("confirm-title").textContent =
-    `glad you didn't say no. be ready by ${state.time || "then"} on ${dateLabel}, ${CONFIG.pickupHint}`;
+    `glad you didn't say no. be ready by ${state.time || "then"} on ${dateLabel} 💕`;
   showStep("step-confirm");
 });
 
