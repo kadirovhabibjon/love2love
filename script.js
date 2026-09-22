@@ -170,16 +170,14 @@ async function sendNotification() {
 
 // ----- confetti (no external dependency) -----
 function burstConfetti() {
-  const colors = ["#ec4899", "#f9a8d4", "#c9a6e0", "#fecdd3"];
-  for (let i = 0; i < 60; i++) {
+  const hearts = ["❤️", "💗", "💕", "💖", "💘", "💝"];
+  for (let i = 0; i < 50; i++) {
     const piece = document.createElement("div");
+    piece.textContent = hearts[Math.floor(Math.random() * hearts.length)];
     piece.style.position = "fixed";
     piece.style.left = "50%";
     piece.style.top = "40%";
-    piece.style.width = "8px";
-    piece.style.height = "8px";
-    piece.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
-    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.fontSize = 14 + Math.random() * 16 + "px";
     piece.style.zIndex = 999;
     piece.style.pointerEvents = "none";
     document.body.appendChild(piece);
@@ -198,6 +196,29 @@ function burstConfetti() {
     ).onfinish = () => piece.remove();
   }
 }
+
+// ----- background music -----
+const bgAudio = document.getElementById("bg-audio");
+const btnMusic = document.getElementById("btn-music");
+let musicPlaying = false;
+
+btnMusic.addEventListener("click", () => {
+  if (musicPlaying) {
+    bgAudio.pause();
+    btnMusic.textContent = "🔈";
+    musicPlaying = false;
+    return;
+  }
+  bgAudio
+    .play()
+    .then(() => {
+      btnMusic.textContent = "🔊";
+      musicPlaying = true;
+    })
+    .catch(() => {
+      console.warn("Add a song.mp3 file next to index.html (or change #bg-audio's src) to enable music.");
+    });
+});
 
 // ----- init -----
 document.getElementById("signature").textContent = CONFIG.signatureName;

@@ -8,7 +8,13 @@ Open [script.js](script.js) and edit the `CONFIG` block at the top:
 
 - `herName` — shown in the opening question
 - `signatureName` — shown at the bottom
-- `pickupHint` — the line on the final confirmation card
+
+## Add background music (optional)
+
+There's a play/mute button in the bottom-right corner. To make it play something:
+
+1. Drop an audio file you have the rights to use next to `index.html` and name it `song.mp3` (or change the `src` on `#bg-audio` in [index.html](index.html) to point at your file).
+2. That's it — no code changes needed. Browsers block autoplay-with-sound, so it only starts once she taps the button.
 
 ## Get her answer by email (optional but recommended)
 
