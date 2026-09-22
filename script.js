@@ -141,13 +141,19 @@ activityGrid.addEventListener("click", (e) => {
 });
 
 btnActivityNext.addEventListener("click", () => {
-  showStep("step-food");
+  // only an "eating out" date needs a food-vibe step; everything else skips straight to date/time
+  showStep(state.activity === "Eating Out" ? "step-food" : "step-date");
 });
 
 // ----- step 4: date & time -----
 const inputDate = document.getElementById("input-date");
 const inputTime = document.getElementById("input-time");
 const btnDateNext = document.getElementById("btn-date-next");
+
+// same idea as the activity->next branch: back goes wherever this date step was reached from
+document.getElementById("btn-back-date").addEventListener("click", () => {
+  showStep(state.activity === "Eating Out" ? "step-food" : "step-activity");
+});
 
 (function fillTimeOptions() {
   for (let h = 10; h <= 21; h++) {
@@ -209,8 +215,9 @@ btnFoodNext.addEventListener("click", () => {
 document.getElementById("btn-accept").addEventListener("click", async () => {
   burstConfetti();
   await sendNotification();
+  const foodPart = state.food ? `, ${state.food}` : "";
   document.getElementById("sent-msg").textContent =
-    `${state.activity || "our date"}, ${state.food || "food"} — ${state.time || ""} on ${state.date || ""}. see you then 🤍`;
+    `${state.activity || "our date"}${foodPart} — ${state.time || ""} on ${state.date || ""}. see you then 🤍`;
   showStep("step-sent");
 });
 
