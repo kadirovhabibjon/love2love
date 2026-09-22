@@ -48,6 +48,7 @@ function dodge() {
   const maxY = stage.clientHeight - btnNo.offsetHeight - 24;
   const x = Math.max(16, Math.random() * maxX);
   const y = Math.max(16, Math.random() * maxY);
+  btnNo.classList.add("dodging");
   btnNo.style.position = "absolute";
   btnNo.style.left = x + "px";
   btnNo.style.top = y + "px";

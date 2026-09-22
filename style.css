@@ -123,10 +123,20 @@ h1 {
 
 .btn-yes span { margin-left: 4px; }
 
+.btn-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.btn-row .btn-yes {
+  margin-top: 0;
+  flex: 1;
+}
+
 .btn-no {
-  position: absolute;
-  top: 26px;
-  right: 32px;
+  flex: 0 0 auto;
   border: none;
   cursor: pointer;
   background: var(--purple-btn);
@@ -134,9 +144,15 @@ h1 {
   font-family: inherit;
   font-size: 0.85rem;
   font-weight: 500;
-  padding: 8px 18px;
+  padding: 12px 20px;
   border-radius: 999px;
+  white-space: nowrap;
   transition: transform 0.18s ease;
+}
+
+.btn-no.dodging {
+  position: absolute;
+  flex: none;
 }
 
 .field {
