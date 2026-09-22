@@ -2,20 +2,22 @@
 
 A tiny romantic "will you go on a date with me?" site — pure HTML/CSS/JS, no build step, no backend to run.
 
+**Live site (the actual link to share):** https://kadirovhabibjon.github.io/love2love/
+
 ## Personalize it
 
 Open [script.js](script.js) and edit the `CONFIG` block at the top:
 
 - `herName` — shown in the opening question
 - `signatureName` — shown at the bottom
-- `reasons` — a list of short reasons shown one at a time before the question; leave it `[]` to skip straight to the question
+- `openingLine` — a single line shown before the question, to build anticipation; leave it `""` to skip straight to the question
 
 ## Add background music (optional)
 
-There's a play/mute button in the bottom-right corner. To make it play something:
+Music starts automatically on her first tap anywhere on the page (browsers block autoplay-with-sound before any interaction, so this is as close to "instant" as is possible). To make it play something:
 
 1. Drop an audio file you have the rights to use next to `index.html` and name it `song.mp3` (or change the `src` on `#bg-audio` in [index.html](index.html) to point at your file).
-2. That's it — no code changes needed. Browsers block autoplay-with-sound, so it only starts once she taps the button.
+2. That's it — no code changes needed.
 
 ## Get her answer by email (optional but recommended)
 
