@@ -16,8 +16,16 @@
 
   <main class="stage">
 
+    <!-- STEP 0: reasons carousel -->
+    <section class="card" id="step-reasons" data-step>
+      <h1>wait, before you answer... 💭</h1>
+      <p class="reason-text" id="reason-text"></p>
+      <div class="reason-dots" id="reason-dots"></div>
+      <button class="btn-next" id="btn-reasons-next">ok ok, ask me already →</button>
+    </section>
+
     <!-- STEP 1: the ask -->
-    <section class="card" id="step-ask" data-step>
+    <section class="card" id="step-ask" data-step hidden>
       <div class="avatar">🐶</div>
       <h1>🌸 Will you go on a date with me? 🌸</h1>
       <div class="btn-row">
@@ -28,14 +36,48 @@
 
     <!-- STEP 2: reaction -->
     <section class="card" id="step-reaction" data-step hidden>
+      <button class="btn-back" data-back="step-ask">← back</button>
       <div class="avatar avatar-icon">🧽</div>
       <h1>WAIT YOU ACTUALLY SAID YES?? 😭</h1>
       <p class="sub">I was so ready for you to say no 😅</p>
       <button class="btn-next" id="btn-reaction-next">okay okay! →</button>
     </section>
 
-    <!-- STEP 3: pick a day/time -->
+    <!-- STEP 3: activity vibe -->
+    <section class="card" id="step-activity" data-step hidden>
+      <button class="btn-back" data-back="step-reaction">← back</button>
+      <h1>What are we doing? 🎈</h1>
+      <p class="sub">pick the vibe</p>
+      <div class="food-grid" id="activity-grid">
+        <button class="food-opt" data-activity="Walk & Talk">🚶<span>Walk & Talk</span></button>
+        <button class="food-opt" data-activity="Coffee">☕<span>Coffee</span></button>
+        <button class="food-opt" data-activity="Movie">🎬<span>Movie</span></button>
+        <button class="food-opt" data-activity="Park">🌳<span>Park</span></button>
+        <button class="food-opt" data-activity="Game Night">🎮<span>Game Night</span></button>
+        <button class="food-opt" data-activity="Surprise Me">🎲<span>Surprise Me</span></button>
+      </div>
+      <button class="btn-next" id="btn-activity-next" disabled>next ♥</button>
+    </section>
+
+    <!-- STEP 4: food vibe -->
+    <section class="card" id="step-food" data-step hidden>
+      <button class="btn-back" data-back="step-activity">← back</button>
+      <h1>What are we feeling? 🍽️✨</h1>
+      <p class="sub">pick your vibe</p>
+      <div class="food-grid" id="food-grid">
+        <button class="food-opt" data-food="Pizza">🍕<span>Pizza</span></button>
+        <button class="food-opt" data-food="Sushi">🍣<span>Sushi</span></button>
+        <button class="food-opt" data-food="Burgers">🍔<span>Burgers</span></button>
+        <button class="food-opt" data-food="Pasta">🍝<span>Pasta</span></button>
+        <button class="food-opt" data-food="Tacos">🌮<span>Tacos</span></button>
+        <button class="food-opt" data-food="Ramen">🍜<span>Ramen</span></button>
+      </div>
+      <button class="btn-next" id="btn-food-next" disabled>next ♥</button>
+    </section>
+
+    <!-- STEP 5: pick a day/time -->
     <section class="card" id="step-date" data-step hidden>
+      <button class="btn-back" data-back="step-food">← back</button>
       <div class="avatar-row">📅🐾</div>
       <h1>So... when are you free?</h1>
       <label class="field">
@@ -51,30 +93,16 @@
       <button class="btn-next" id="btn-date-next" disabled>set the date! ♥</button>
     </section>
 
-    <!-- STEP 4: food vibe -->
-    <section class="card" id="step-food" data-step hidden>
-      <h1>What are we feeling? 🍽️✨</h1>
-      <p class="sub">pick your vibe</p>
-      <div class="food-grid" id="food-grid">
-        <button class="food-opt" data-food="Pizza">🍕<span>Pizza</span></button>
-        <button class="food-opt" data-food="Sushi">🍣<span>Sushi</span></button>
-        <button class="food-opt" data-food="Burgers">🍔<span>Burgers</span></button>
-        <button class="food-opt" data-food="Pasta">🍝<span>Pasta</span></button>
-        <button class="food-opt" data-food="Tacos">🌮<span>Tacos</span></button>
-        <button class="food-opt" data-food="Ramen">🍜<span>Ramen</span></button>
-      </div>
-      <button class="btn-next" id="btn-food-next" disabled>let's go! ♥</button>
-    </section>
-
-    <!-- STEP 5: confirmation -->
+    <!-- STEP 6: confirmation -->
     <section class="card" id="step-confirm" data-step hidden>
-      <h1 id="confirm-title">glad you didn't say no. be ready, I'm coming to get you 🚗</h1>
+      <button class="btn-back" data-back="step-date">← back</button>
+      <h1 id="confirm-title">glad you didn't say no. be ready 🚗</h1>
       <p class="sub">P.S. normal people text. I made a website, during lunch, for you. no big deal.</p>
       <p class="hearts">♥ ♥ ♥ ♥ ♥</p>
       <button class="btn-next" id="btn-accept">ok I accept 💝</button>
     </section>
 
-    <!-- STEP 6: sent -->
+    <!-- STEP 7: sent -->
     <section class="card" id="step-sent" data-step hidden>
       <h1>see you then 🤍</h1>
       <p class="sub" id="sent-msg">message sent, can't wait.</p>

@@ -8,6 +8,7 @@ Open [script.js](script.js) and edit the `CONFIG` block at the top:
 
 - `herName` — shown in the opening question
 - `signatureName` — shown at the bottom
+- `reasons` — a list of short reasons shown one at a time before the question; leave it `[]` to skip straight to the question
 
 ## Add background music (optional)
 

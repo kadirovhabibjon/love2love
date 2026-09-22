@@ -190,6 +190,64 @@ h1 {
   touch-action: none;
 }
 
+.btn-back {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn-back:hover {
+  background: rgba(122, 37, 64, 0.07);
+  color: var(--maroon);
+}
+
+.reason-text {
+  min-height: 3.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--maroon);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  margin: 8px 0 16px;
+}
+
+.reason-text.show {
+  opacity: 1;
+}
+
+.reason-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.reason-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f0c9da;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.reason-dot.active {
+  background: var(--pink-btn);
+  transform: scale(1.3);
+}
+
 .field {
   display: block;
   text-align: left;

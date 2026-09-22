@@ -2,6 +2,14 @@
 const CONFIG = {
   herName: "",                     // e.g. "Name of girl" — leave empty to skip a name
   signatureName: "Habibjon",       // shown at the bottom + used in the final message
+  // Shown one at a time before the question, to build anticipation.
+  // Leave the array empty ([]) to skip straight to the question.
+  reasons: [
+    "the way you laugh at jokes that aren't even that funny",
+    "how you make ordinary days feel special",
+    "your smile — genuinely, it's a problem",
+    "just... you. all of it.",
+  ],
   // Where her answer gets emailed to you.
   // 1) go to https://web3forms.com, enter your email, get a free "Access Key" (no password, 1 min).
   // 2) paste that key below.
@@ -10,12 +18,55 @@ const CONFIG = {
 };
 // -------------------------------------
 
-const state = { date: "", time: "", food: "" };
+const state = { date: "", time: "", food: "", activity: "" };
 
 function showStep(id) {
   document.querySelectorAll("[data-step]").forEach((el) => (el.hidden = true));
   document.getElementById(id).hidden = false;
 }
+
+// ----- step 0: reasons carousel -----
+function startReasons() {
+  const reasons = CONFIG.reasons || [];
+  if (reasons.length === 0) {
+    showStep("step-ask");
+    return;
+  }
+
+  const reasonText = document.getElementById("reason-text");
+  const reasonDots = document.getElementById("reason-dots");
+  reasons.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.className = "reason-dot" + (i === 0 ? " active" : "");
+    reasonDots.appendChild(dot);
+  });
+  const dots = reasonDots.querySelectorAll(".reason-dot");
+
+  let idx = 0;
+  function render() {
+    reasonText.classList.remove("show");
+    setTimeout(() => {
+      reasonText.textContent = reasons[idx];
+      dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+      reasonText.classList.add("show");
+    }, 200);
+  }
+  render();
+  const reasonTimer = setInterval(() => {
+    idx = (idx + 1) % reasons.length;
+    render();
+  }, 2200);
+
+  document.getElementById("btn-reasons-next").addEventListener("click", () => {
+    clearInterval(reasonTimer);
+    showStep("step-ask");
+  });
+}
+
+// ----- back buttons -----
+document.querySelectorAll("[data-back]").forEach((btn) => {
+  btn.addEventListener("click", () => showStep(btn.dataset.back));
+});
 
 // ----- floating petals background -----
 function spawnPetals() {
@@ -73,10 +124,27 @@ document.getElementById("btn-yes").addEventListener("click", () => {
 
 // ----- step 2: reaction -----
 document.getElementById("btn-reaction-next").addEventListener("click", () => {
-  showStep("step-date");
+  showStep("step-activity");
 });
 
-// ----- step 3: date & time -----
+// ----- step 3: activity -----
+const activityGrid = document.getElementById("activity-grid");
+const btnActivityNext = document.getElementById("btn-activity-next");
+
+activityGrid.addEventListener("click", (e) => {
+  const opt = e.target.closest(".food-opt");
+  if (!opt) return;
+  activityGrid.querySelectorAll(".food-opt").forEach((b) => b.classList.remove("selected"));
+  opt.classList.add("selected");
+  state.activity = opt.dataset.activity;
+  btnActivityNext.disabled = false;
+});
+
+btnActivityNext.addEventListener("click", () => {
+  showStep("step-food");
+});
+
+// ----- step 4: date & time -----
 const inputDate = document.getElementById("input-date");
 const inputTime = document.getElementById("input-time");
 const btnDateNext = document.getElementById("btn-date-next");
@@ -107,7 +175,17 @@ inputTime.addEventListener("change", checkDateReady);
 btnDateNext.addEventListener("click", () => {
   state.date = inputDate.value;
   state.time = inputTime.value;
-  showStep("step-food");
+
+  const dateLabel = state.date
+    ? new Date(state.date + "T00:00:00").toLocaleDateString(undefined, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      })
+    : "";
+  document.getElementById("confirm-title").textContent =
+    `glad you didn't say no. be ready by ${state.time || "then"} on ${dateLabel} 💕`;
+  showStep("step-confirm");
 });
 
 // ----- step 4: food -----
@@ -124,16 +202,7 @@ foodGrid.addEventListener("click", (e) => {
 });
 
 btnFoodNext.addEventListener("click", () => {
-  const dateLabel = state.date
-    ? new Date(state.date + "T00:00:00").toLocaleDateString(undefined, {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-      })
-    : "";
-  document.getElementById("confirm-title").textContent =
-    `glad you didn't say no. be ready by ${state.time || "then"} on ${dateLabel} 💕`;
-  showStep("step-confirm");
+  showStep("step-date");
 });
 
 // ----- step 5: accept -----
@@ -141,7 +210,7 @@ document.getElementById("btn-accept").addEventListener("click", async () => {
   burstConfetti();
   await sendNotification();
   document.getElementById("sent-msg").textContent =
-    `${state.food || "food"}, ${state.time || ""} on ${state.date || ""} — see you then 🤍`;
+    `${state.activity || "our date"}, ${state.food || "food"} — ${state.time || ""} on ${state.date || ""}. see you then 🤍`;
   showStep("step-sent");
 });
 
@@ -160,7 +229,7 @@ async function sendNotification() {
         email: CONFIG.notifyEmail,
         subject: "she said yes 💌",
         from_name: CONFIG.herName || "her",
-        message: `Date: ${state.date}\nTime: ${state.time}\nFood: ${state.food}`,
+        message: `Date: ${state.date}\nTime: ${state.time}\nActivity: ${state.activity}\nFood: ${state.food}`,
       }),
     });
   } catch (err) {
@@ -227,3 +296,4 @@ if (CONFIG.herName) {
   heading.textContent = `🌸 Will you go on a date with me, ${CONFIG.herName}? 🌸`;
 }
 spawnPetals();
+startReasons();
