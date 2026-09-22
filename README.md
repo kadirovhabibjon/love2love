@@ -30,11 +30,13 @@ If you skip this step, the flow still works end to end — you just won't get an
 
 ## Run it locally
 
+For developers only — to preview changes on your own computer before pushing them. The link to actually share is the live site at the top of this page, not this one.
+
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open http://localhost:8000.
+Then open http://localhost:8000 in your own browser.
 
 ## Deploy
 
