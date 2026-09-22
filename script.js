@@ -404,13 +404,8 @@ const bgAudio = document.getElementById("bg-audio");
 const btnMusic = document.getElementById("btn-music");
 let musicPlaying = false;
 
-btnMusic.addEventListener("click", () => {
-  if (musicPlaying) {
-    bgAudio.pause();
-    btnMusic.textContent = "🔈";
-    musicPlaying = false;
-    return;
-  }
+function startMusic() {
+  if (musicPlaying) return;
   bgAudio
     .play()
     .then(() => {
@@ -420,7 +415,21 @@ btnMusic.addEventListener("click", () => {
     .catch(() => {
       console.warn("Add a song.mp3 file next to index.html (or change #bg-audio's src) to enable music.");
     });
+}
+
+btnMusic.addEventListener("click", () => {
+  if (musicPlaying) {
+    bgAudio.pause();
+    btnMusic.textContent = "🔈";
+    musicPlaying = false;
+    return;
+  }
+  startMusic();
 });
+
+// browsers block audio-with-sound autoplay on page load, so start it on
+// her very first tap/click anywhere — no need to find and press the music button
+document.addEventListener("pointerdown", startMusic, { once: true, capture: true });
 
 // ----- init -----
 document.getElementById("signature").textContent = CONFIG.signatureName;
