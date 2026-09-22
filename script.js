@@ -4,7 +4,7 @@ const CONFIG = {
   signatureName: "Habibjon",       // shown at the bottom + used in the final message
   // A single line shown before the question, to build anticipation.
   // Leave it "" to skip straight to the question.
-  openingLine: "just... you. all of it.",
+  openingLine: "You are very beautiful. just... you. all of it.",
   // Where her answer gets emailed to you.
   // 1) go to https://web3forms.com, enter your email, get a free "Access Key" (no password, 1 min).
   // 2) paste that key below.
