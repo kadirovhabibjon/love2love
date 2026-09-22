@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>will you go on a date with me?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="petals" id="petals"></div>
+
+  <main class="stage">
+
+    <!-- STEP 1: the ask -->
+    <section class="card" id="step-ask" data-step>
+      <div class="avatar">🐶</div>
+      <button class="btn-no" id="btn-no">no</button>
+      <h1>🌸 Will you go on a date with me? 🌸</h1>
+      <button class="btn-yes" id="btn-yes">YES <span>♥</span></button>
+    </section>
+
+    <!-- STEP 2: reaction -->
+    <section class="card" id="step-reaction" data-step hidden>
+      <div class="avatar avatar-icon">🧽</div>
+      <h1>WAIT YOU ACTUALLY SAID YES?? 😭</h1>
+      <p class="sub">I was so ready for you to say no 😅</p>
+      <button class="btn-next" id="btn-reaction-next">okay okay! →</button>
+    </section>
+
+    <!-- STEP 3: pick a day/time -->
+    <section class="card" id="step-date" data-step hidden>
+      <div class="avatar-row">📅🐾</div>
+      <h1>So... when are you free?</h1>
+      <label class="field">
+        <span>Pick a Day 📅</span>
+        <input type="date" id="input-date" />
+      </label>
+      <label class="field">
+        <span>What Time? 🕐</span>
+        <select id="input-time">
+          <option value="" disabled selected>Select a time...</option>
+        </select>
+      </label>
+      <button class="btn-next" id="btn-date-next" disabled>set the date! ♥</button>
+    </section>
+
+    <!-- STEP 4: food vibe -->
+    <section class="card" id="step-food" data-step hidden>
+      <h1>What are we feeling? 🍽️✨</h1>
+      <p class="sub">pick your vibe</p>
+      <div class="food-grid" id="food-grid">
+        <button class="food-opt" data-food="Pizza">🍕<span>Pizza</span></button>
+        <button class="food-opt" data-food="Sushi">🍣<span>Sushi</span></button>
+        <button class="food-opt" data-food="Burgers">🍔<span>Burgers</span></button>
+        <button class="food-opt" data-food="Pasta">🍝<span>Pasta</span></button>
+        <button class="food-opt" data-food="Tacos">🌮<span>Tacos</span></button>
+        <button class="food-opt" data-food="Ramen">🍜<span>Ramen</span></button>
+      </div>
+      <button class="btn-next" id="btn-food-next" disabled>let's go! ♥</button>
+    </section>
+
+    <!-- STEP 5: confirmation -->
+    <section class="card" id="step-confirm" data-step hidden>
+      <h1 id="confirm-title">glad you didn't say no. be ready, I'm coming to get you 🚗</h1>
+      <p class="sub">P.S. normal people text. I made a website, during lunch, for you. no big deal.</p>
+      <p class="hearts">♥ ♥ ♥ ♥ ♥</p>
+      <button class="btn-next" id="btn-accept">ok I accept 💝</button>
+    </section>
+
+    <!-- STEP 6: sent -->
+    <section class="card" id="step-sent" data-step hidden>
+      <h1>see you then 🤍</h1>
+      <p class="sub" id="sent-msg">message sent, can't wait.</p>
+    </section>
+
+  </main>
+
+  <p class="made-with">built with ♥ by <a href="#" id="signature">Habibjon</a></p>
+
+  <script src="script.js"></script>
+</body>
+</html>
