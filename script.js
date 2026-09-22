@@ -411,10 +411,17 @@ let musicPlaying = false;
 
 function startMusic() {
   if (musicPlaying) return;
-  bgAudio
-    .play()
-    .then(() => {
-      musicPlaying = true;
+  musicPlaying = true;
+
+  // Fully download the clip into memory before ever starting playback.
+  // Streaming playback (even after waiting for "canplaythrough") can still
+  // run ahead of the download on a slow connection and stall mid-song —
+  // downloading it whole first means once it starts, it can never stall.
+  fetch(bgAudio.currentSrc || bgAudio.src)
+    .then((res) => res.blob())
+    .then((blob) => {
+      bgAudio.src = URL.createObjectURL(blob);
+      return bgAudio.play();
     })
     .catch(() => {
       console.warn("Add a song.mp3 file next to index.html (or change #bg-audio's src) to enable music.");
