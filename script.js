@@ -18,7 +18,7 @@ const CONFIG = {
 };
 // -------------------------------------
 
-const state = { date: "", time: "", food: "", activity: "", movie: "", location: "" };
+const state = { date: "", time: "", food: "", activity: "", movie: "", coffee: "", location: "" };
 
 function showStep(id) {
   document.querySelectorAll("[data-step]").forEach((el) => (el.hidden = true));
@@ -146,17 +146,20 @@ btnActivityNext.addEventListener("click", () => {
   showDetailFor(state.activity);
 });
 
-// ----- step 4: activity detail (food / movie / location) -----
+// ----- step 4: activity detail (food / movie / coffee / location) -----
 const detailFood = document.getElementById("detail-food");
 const detailMovie = document.getElementById("detail-movie");
+const detailCoffee = document.getElementById("detail-coffee");
 const detailLocation = document.getElementById("detail-location");
 const inputMovie = document.getElementById("input-movie");
 const inputLocation = document.getElementById("input-location");
+const inputCoffeeLocation = document.getElementById("input-coffee-location");
 const btnDetailNext = document.getElementById("btn-detail-next");
 
 function showDetailFor(activity) {
   detailFood.hidden = true;
   detailMovie.hidden = true;
+  detailCoffee.hidden = true;
   detailLocation.hidden = true;
 
   if (activity === "Eating Out") {
@@ -165,6 +168,9 @@ function showDetailFor(activity) {
   } else if (activity === "Movie") {
     detailMovie.hidden = false;
     btnDetailNext.disabled = !inputMovie.value.trim();
+  } else if (activity === "Coffee") {
+    detailCoffee.hidden = false;
+    btnDetailNext.disabled = !state.coffee;
   } else {
     detailLocation.hidden = false;
     btnDetailNext.disabled = !inputLocation.value.trim();
@@ -179,9 +185,36 @@ inputLocation.addEventListener("input", () => {
   btnDetailNext.disabled = !inputLocation.value.trim();
 });
 
+// ----- coffee type (grid + custom text, same pattern as the food picker) -----
+const coffeeGrid = document.getElementById("coffee-grid");
+const inputCoffeeCustom = document.getElementById("input-coffee-custom");
+
+coffeeGrid.addEventListener("click", (e) => {
+  const opt = e.target.closest(".food-opt");
+  if (!opt) return;
+  coffeeGrid.querySelectorAll(".food-opt").forEach((b) => b.classList.remove("selected"));
+  opt.classList.add("selected");
+  inputCoffeeCustom.value = "";
+  state.coffee = opt.dataset.coffee;
+  btnDetailNext.disabled = false;
+});
+
+inputCoffeeCustom.addEventListener("input", () => {
+  const custom = inputCoffeeCustom.value.trim();
+  if (custom) {
+    coffeeGrid.querySelectorAll(".food-opt").forEach((b) => b.classList.remove("selected"));
+    state.coffee = custom;
+    btnDetailNext.disabled = false;
+  } else {
+    const selected = coffeeGrid.querySelector(".food-opt.selected");
+    state.coffee = selected ? selected.dataset.coffee : "";
+    btnDetailNext.disabled = !state.coffee;
+  }
+});
+
 btnDetailNext.addEventListener("click", () => {
   state.movie = inputMovie.value.trim();
-  state.location = inputLocation.value.trim();
+  state.location = state.activity === "Coffee" ? inputCoffeeLocation.value.trim() : inputLocation.value.trim();
   showStep("step-date");
 });
 
@@ -259,6 +292,7 @@ inputFoodCustom.addEventListener("input", () => {
 function detailSummary() {
   if (state.activity === "Eating Out") return state.food;
   if (state.activity === "Movie") return state.movie;
+  if (state.activity === "Coffee") return [state.coffee, state.location].filter(Boolean).join(" @ ");
   return state.location;
 }
 
