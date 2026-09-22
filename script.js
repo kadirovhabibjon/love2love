@@ -154,6 +154,7 @@ const detailLocation = document.getElementById("detail-location");
 const inputMovie = document.getElementById("input-movie");
 const inputLocation = document.getElementById("input-location");
 const inputCoffeeLocation = document.getElementById("input-coffee-location");
+const inputFoodLocation = document.getElementById("input-food-location");
 const btnDetailNext = document.getElementById("btn-detail-next");
 
 function showDetailFor(activity) {
@@ -214,7 +215,13 @@ inputCoffeeCustom.addEventListener("input", () => {
 
 btnDetailNext.addEventListener("click", () => {
   state.movie = inputMovie.value.trim();
-  state.location = state.activity === "Coffee" ? inputCoffeeLocation.value.trim() : inputLocation.value.trim();
+  if (state.activity === "Coffee") {
+    state.location = inputCoffeeLocation.value.trim();
+  } else if (state.activity === "Eating Out") {
+    state.location = inputFoodLocation.value.trim();
+  } else {
+    state.location = inputLocation.value.trim();
+  }
   showStep("step-date");
 });
 
@@ -290,7 +297,7 @@ inputFoodCustom.addEventListener("input", () => {
 
 // ----- step 6: accept -----
 function detailSummary() {
-  if (state.activity === "Eating Out") return state.food;
+  if (state.activity === "Eating Out") return [state.food, state.location].filter(Boolean).join(" @ ");
   if (state.activity === "Movie") return state.movie;
   if (state.activity === "Coffee") return [state.coffee, state.location].filter(Boolean).join(" @ ");
   return state.location;
