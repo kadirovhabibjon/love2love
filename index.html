@@ -60,25 +60,47 @@
       <button class="btn-next" id="btn-activity-next" disabled>next ♥</button>
     </section>
 
-    <!-- STEP 4: food vibe -->
-    <section class="card" id="step-food" data-step hidden>
+    <!-- STEP 4: activity detail (food / movie / location — depends on what was picked) -->
+    <section class="card" id="step-detail" data-step hidden>
       <button class="btn-back" data-back="step-activity">← back</button>
-      <h1>What are we feeling? 🍽️✨</h1>
-      <p class="sub">pick your vibe</p>
-      <div class="food-grid" id="food-grid">
-        <button class="food-opt" data-food="Pizza">🍕<span>Pizza</span></button>
-        <button class="food-opt" data-food="Sushi">🍣<span>Sushi</span></button>
-        <button class="food-opt" data-food="Burgers">🍔<span>Burgers</span></button>
-        <button class="food-opt" data-food="Pasta">🍝<span>Pasta</span></button>
-        <button class="food-opt" data-food="Tacos">🌮<span>Tacos</span></button>
-        <button class="food-opt" data-food="Ramen">🍜<span>Ramen</span></button>
+
+      <div id="detail-food" hidden>
+        <h1>What are we feeling? 🍽️✨</h1>
+        <p class="sub">pick your vibe</p>
+        <div class="food-grid" id="food-grid">
+          <button class="food-opt" data-food="Pizza">🍕<span>Pizza</span></button>
+          <button class="food-opt" data-food="Sushi">🍣<span>Sushi</span></button>
+          <button class="food-opt" data-food="Burgers">🍔<span>Burgers</span></button>
+          <button class="food-opt" data-food="Pasta">🍝<span>Pasta</span></button>
+          <button class="food-opt" data-food="Tacos">🌮<span>Tacos</span></button>
+          <button class="food-opt" data-food="Ramen">🍜<span>Ramen</span></button>
+        </div>
       </div>
-      <button class="btn-next" id="btn-food-next" disabled>next ♥</button>
+
+      <div id="detail-movie" hidden>
+        <h1>Which movie? 🎬</h1>
+        <p class="sub">a title, or just the vibe you're after</p>
+        <label class="field">
+          <span>Movie</span>
+          <input type="text" id="input-movie" placeholder="e.g. a rom-com, or name one" />
+        </label>
+      </div>
+
+      <div id="detail-location" hidden>
+        <h1>Where at? 📍</h1>
+        <p class="sub">any spot in mind?</p>
+        <label class="field">
+          <span>Location</span>
+          <input type="text" id="input-location" placeholder="e.g. the usual place, downtown..." />
+        </label>
+      </div>
+
+      <button class="btn-next" id="btn-detail-next" disabled>next ♥</button>
     </section>
 
     <!-- STEP 5: pick a day/time -->
     <section class="card" id="step-date" data-step hidden>
-      <button class="btn-back" id="btn-back-date">← back</button>
+      <button class="btn-back" data-back="step-detail">← back</button>
       <div class="avatar-row">📅🐾</div>
       <h1>So... when are you free?</h1>
       <label class="field">

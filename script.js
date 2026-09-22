@@ -18,7 +18,7 @@ const CONFIG = {
 };
 // -------------------------------------
 
-const state = { date: "", time: "", food: "", activity: "" };
+const state = { date: "", time: "", food: "", activity: "", movie: "", location: "" };
 
 function showStep(id) {
   document.querySelectorAll("[data-step]").forEach((el) => (el.hidden = true));
@@ -143,19 +143,52 @@ activityGrid.addEventListener("click", (e) => {
 });
 
 btnActivityNext.addEventListener("click", () => {
-  // only an "eating out" date needs a food-vibe step; everything else skips straight to date/time
-  showStep(state.activity === "Eating Out" ? "step-food" : "step-date");
+  showDetailFor(state.activity);
 });
 
-// ----- step 4: date & time -----
+// ----- step 4: activity detail (food / movie / location) -----
+const detailFood = document.getElementById("detail-food");
+const detailMovie = document.getElementById("detail-movie");
+const detailLocation = document.getElementById("detail-location");
+const inputMovie = document.getElementById("input-movie");
+const inputLocation = document.getElementById("input-location");
+const btnDetailNext = document.getElementById("btn-detail-next");
+
+function showDetailFor(activity) {
+  detailFood.hidden = true;
+  detailMovie.hidden = true;
+  detailLocation.hidden = true;
+
+  if (activity === "Eating Out") {
+    detailFood.hidden = false;
+    btnDetailNext.disabled = !state.food;
+  } else if (activity === "Movie") {
+    detailMovie.hidden = false;
+    btnDetailNext.disabled = !inputMovie.value.trim();
+  } else {
+    detailLocation.hidden = false;
+    btnDetailNext.disabled = !inputLocation.value.trim();
+  }
+  showStep("step-detail");
+}
+
+inputMovie.addEventListener("input", () => {
+  btnDetailNext.disabled = !inputMovie.value.trim();
+});
+inputLocation.addEventListener("input", () => {
+  btnDetailNext.disabled = !inputLocation.value.trim();
+});
+
+btnDetailNext.addEventListener("click", () => {
+  state.movie = inputMovie.value.trim();
+  state.location = inputLocation.value.trim();
+  showStep("step-date");
+});
+
+// ----- step 5: date & time -----
 const inputDate = document.getElementById("input-date");
 const inputTime = document.getElementById("input-time");
 const btnDateNext = document.getElementById("btn-date-next");
-
-// same idea as the activity->next branch: back goes wherever this date step was reached from
-document.getElementById("btn-back-date").addEventListener("click", () => {
-  showStep(state.activity === "Eating Out" ? "step-food" : "step-activity");
-});
 
 (function fillTimeOptions() {
   for (let h = 10; h <= 21; h++) {
@@ -196,30 +229,30 @@ btnDateNext.addEventListener("click", () => {
   showStep("step-confirm");
 });
 
-// ----- step 4: food -----
 const foodGrid = document.getElementById("food-grid");
-const btnFoodNext = document.getElementById("btn-food-next");
-
 foodGrid.addEventListener("click", (e) => {
   const opt = e.target.closest(".food-opt");
   if (!opt) return;
   foodGrid.querySelectorAll(".food-opt").forEach((b) => b.classList.remove("selected"));
   opt.classList.add("selected");
   state.food = opt.dataset.food;
-  btnFoodNext.disabled = false;
+  btnDetailNext.disabled = false;
 });
 
-btnFoodNext.addEventListener("click", () => {
-  showStep("step-date");
-});
+// ----- step 6: accept -----
+function detailSummary() {
+  if (state.activity === "Eating Out") return state.food;
+  if (state.activity === "Movie") return state.movie;
+  return state.location;
+}
 
-// ----- step 5: accept -----
 document.getElementById("btn-accept").addEventListener("click", async () => {
   burstConfetti();
   await sendNotification();
-  const foodPart = state.food ? `, ${state.food}` : "";
+  const detail = detailSummary();
+  const detailPart = detail ? `, ${detail}` : "";
   document.getElementById("sent-msg").textContent =
-    `${state.activity || "our date"}${foodPart} — ${state.time || ""} on ${state.date || ""}. see you then 🤍`;
+    `${state.activity || "our date"}${detailPart} — ${state.time || ""} on ${state.date || ""}. see you then 🤍`;
   showStep("step-sent");
 });
 
@@ -238,7 +271,7 @@ async function sendNotification() {
         email: CONFIG.notifyEmail,
         subject: "she said yes 💌",
         from_name: CONFIG.herName || "her",
-        message: `Date: ${state.date}\nTime: ${state.time}\nActivity: ${state.activity}\nFood: ${state.food}`,
+        message: `Date: ${state.date}\nTime: ${state.time}\nActivity: ${state.activity}\nDetail: ${detailSummary() || "-"}`,
       }),
     });
   } catch (err) {
