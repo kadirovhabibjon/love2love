@@ -74,15 +74,15 @@ document.querySelectorAll("[data-back]").forEach((btn) => {
 function spawnPetals() {
   const host = document.getElementById("petals");
   const emojis = ["🌸", "💮", "🌷", "♡"];
-  const count = window.innerWidth < 480 ? 14 : 22;
+  const count = window.innerWidth < 480 ? 28 : 44;
   for (let i = 0; i < count; i++) {
     const p = document.createElement("span");
     p.className = "petal";
     p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
     p.style.left = Math.random() * 100 + "vw";
     p.style.fontSize = 14 + Math.random() * 14 + "px";
-    p.style.animationDuration = 8 + Math.random() * 10 + "s";
-    p.style.animationDelay = Math.random() * 10 + "s";
+    p.style.animationDuration = 3.5 + Math.random() * 4 + "s";
+    p.style.animationDelay = Math.random() * 5 + "s";
     host.appendChild(p);
   }
 }
