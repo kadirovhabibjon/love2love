@@ -191,9 +191,8 @@ h1 {
 }
 
 .btn-back {
-  position: absolute;
-  top: 18px;
-  left: 18px;
+  display: block;
+  width: fit-content;
   border: none;
   background: none;
   color: var(--text-muted);
@@ -202,6 +201,7 @@ h1 {
   font-weight: 500;
   cursor: pointer;
   padding: 6px 12px;
+  margin: -6px 0 10px -12px;
   border-radius: 999px;
   transition: background 0.15s ease, color 0.15s ease;
 }
