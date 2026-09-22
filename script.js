@@ -313,17 +313,23 @@ async function sendNotification() {
     return;
   }
   try {
-    await fetch("https://api.web3forms.com/submit", {
+    const formData = new FormData();
+    formData.append("access_key", CONFIG.web3formsAccessKey);
+    formData.append("email", CONFIG.notifyEmail);
+    formData.append("subject", "she said yes 💌");
+    formData.append("name", CONFIG.herName || "her");
+    formData.append(
+      "message",
+      `Date: ${state.date}\nTime: ${state.time}\nActivity: ${state.activity}\nDetail: ${detailSummary() || "-"}`
+    );
+
+    // plain FormData (not JSON) avoids a CORS preflight that web3forms doesn't answer
+    const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        access_key: CONFIG.web3formsAccessKey,
-        email: CONFIG.notifyEmail,
-        subject: "she said yes 💌",
-        from_name: CONFIG.herName || "her",
-        message: `Date: ${state.date}\nTime: ${state.time}\nActivity: ${state.activity}\nDetail: ${detailSummary() || "-"}`,
-      }),
+      body: formData,
     });
+    const data = await res.json();
+    if (!data.success) console.error("Web3Forms rejected the submission:", data);
   } catch (err) {
     console.error("Could not send notification:", err);
   }
