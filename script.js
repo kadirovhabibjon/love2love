@@ -2,14 +2,9 @@
 const CONFIG = {
   herName: "My Honey",                     // e.g. "Name of girl" — leave empty to skip a name
   signatureName: "Habibjon",       // shown at the bottom + used in the final message
-  // Shown one at a time before the question, to build anticipation.
-  // Leave the array empty ([]) to skip straight to the question.
-  reasons: [
-    "the way you laugh at jokes that aren't even that funny",
-    "how you make ordinary days feel special",
-    "your smile — genuinely, it's a problem",
-    "just... you. all of it.",
-  ],
+  // A single line shown before the question, to build anticipation.
+  // Leave it "" to skip straight to the question.
+  openingLine: "just... you. all of it.",
   // Where her answer gets emailed to you.
   // 1) go to https://web3forms.com, enter your email, get a free "Access Key" (no password, 1 min).
   // 2) paste that key below.
@@ -25,42 +20,18 @@ function showStep(id) {
   document.getElementById(id).hidden = false;
 }
 
-// ----- step 0: reasons carousel -----
+// ----- step 0: opening line -----
 function startReasons() {
-  const reasons = CONFIG.reasons || [];
-  if (reasons.length === 0) {
-    // nothing to go back to if the reasons carousel is skipped entirely
+  if (!CONFIG.openingLine) {
+    // nothing to go back to if this step is skipped entirely
     document.getElementById("btn-back-ask").style.display = "none";
     showStep("step-ask");
     return;
   }
 
-  const reasonText = document.getElementById("reason-text");
-  const reasonDots = document.getElementById("reason-dots");
-  reasons.forEach((_, i) => {
-    const dot = document.createElement("span");
-    dot.className = "reason-dot" + (i === 0 ? " active" : "");
-    reasonDots.appendChild(dot);
-  });
-  const dots = reasonDots.querySelectorAll(".reason-dot");
-
-  let idx = 0;
-  function render() {
-    reasonText.classList.remove("show");
-    setTimeout(() => {
-      reasonText.textContent = reasons[idx];
-      dots.forEach((d, i) => d.classList.toggle("active", i === idx));
-      reasonText.classList.add("show");
-    }, 200);
-  }
-  render();
-  const reasonTimer = setInterval(() => {
-    idx = (idx + 1) % reasons.length;
-    render();
-  }, 2200);
+  document.getElementById("reason-text").textContent = CONFIG.openingLine;
 
   document.getElementById("btn-reasons-next").addEventListener("click", () => {
-    clearInterval(reasonTimer);
     showStep("step-ask");
   });
 }

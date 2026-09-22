@@ -228,26 +228,6 @@ h1 {
   opacity: 1;
 }
 
-.reason-dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-
-.reason-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #f0c9da;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.reason-dot.active {
-  background: var(--pink-btn);
-  transform: scale(1.3);
-}
-
 .field {
   display: block;
   text-align: left;
