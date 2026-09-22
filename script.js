@@ -29,6 +29,8 @@ function showStep(id) {
 function startReasons() {
   const reasons = CONFIG.reasons || [];
   if (reasons.length === 0) {
+    // nothing to go back to if the reasons carousel is skipped entirely
+    document.getElementById("btn-back-ask").style.display = "none";
     showStep("step-ask");
     return;
   }
