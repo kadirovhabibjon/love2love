@@ -143,7 +143,7 @@ function showDetailFor(activity) {
   if (activity === "Eating Out") {
     detailFood.hidden = false;
     btnDetailNext.disabled = !state.food;
-  } else if (activity === "Movie") {
+  } else if (activity === "Shirinlik") {
     detailMovie.hidden = false;
     btnDetailNext.disabled = !inputMovie.value.trim();
   } else if (activity === "Coffee") {
@@ -275,7 +275,7 @@ inputFoodCustom.addEventListener("input", () => {
 // ----- step 6: accept -----
 function detailSummary() {
   if (state.activity === "Eating Out") return [state.food, state.location].filter(Boolean).join(" @ ");
-  if (state.activity === "Movie") return state.movie;
+  if (state.activity === "Shirinlik") return state.movie;
   if (state.activity === "Coffee") return [state.coffee, state.location].filter(Boolean).join(" @ ");
   return state.location;
 }
