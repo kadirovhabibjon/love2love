@@ -436,7 +436,7 @@ document.addEventListener("pointerdown", startMusic, { once: true, capture: true
 document.getElementById("signature").textContent = CONFIG.signatureName;
 if (CONFIG.herName) {
   const heading = document.querySelector("#step-ask h1");
-  heading.textContent = `🌸 Will you go on a date with me, ${CONFIG.herName}? 🌸`;
+  heading.textContent = `🌸 Manga qayta imkon ber va uchrashuvga chiqaylik 🌸`;
 }
 spawnPetals();
 startReasons();
